@@ -28,7 +28,6 @@ def merge_player_and_MYMAP(Player):
     pMYMAP[y_of_Player][x_of_Player] = PLAYER
     return pMYMAP
 
-
 # define width and length of MYMAP, it will be used in this way:
 # MYMAP[Y_OF_MYMAP][X_OF_MYMAP]
 Y_OF_MYMAP = 5
@@ -36,12 +35,6 @@ X_OF_MYMAP = 5
 
 # define total actions
 gTotal_Actions = 4 #up, down, left, right
-
-
-def show_qTable(pgQ_table):
-    for state in range(0,X_OF_MYMAP * Y_OF_MYMAP,1):
-        for act in range(0,gTotal_Actions,1):
-            print("gState[{:d}][{:d}]={:f}".format(state,act,pgQ_table[state][act]))
 
 def evn_render(pMYMAP):
 
@@ -60,25 +53,6 @@ def evn_render(pMYMAP):
                 exit()
         print("") # chnage to new line
 
-def get_action_from_MAX_Q(gState):
-    global gQ_table
-    maxQ = gQ_table[gState][0] # init a maxQ as first action, it will be updted later.
-    ret_act = 0
-
-    for act in range(1,gTotal_Actions,1):
-        if maxQ < gQ_table[gState][act]:
-            maxQ = gQ_table[gState][act]
-            ret_act = act 
-
-    return ret_act
-
-def get_MAX_Q_from_state(gState):
-    global gQ_table
-    maxQ = gQ_table[gState][0] # init a maxQ as first action, it will be updted later.
-    for act in range(1,gTotal_Actions,1):
-        if maxQ < gQ_table[gState][act]:
-            maxQ = gQ_table[gState][act]
-    return maxQ
 
 def get_reward_of_state(gState):
     global MYMAP
