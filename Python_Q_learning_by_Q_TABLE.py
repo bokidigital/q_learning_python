@@ -1,4 +1,8 @@
 import random
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
 
 HOLE = 1
 GOAL = 2
@@ -65,6 +69,22 @@ def evn_render(gState):
                 print("PANIC, unknow element of MAP")
                 exit()
         print("") # chnage to new line
+	
+def map_render(gState, episode_n, step_n, action):
+
+    action_dict = {0: 'Up', 1: 'Down', 2: 'Left', 3: 'Right'}
+    action_name = action_dict[action]
+
+    map_reshaped = np.array(map).reshape(1,-1)[0]
+    map_reshaped[gState] = 3
+    map_reshaped = map_reshaped.reshape(5,5)
+
+    fig = plt.figure()
+    sns.heatmap(map_reshaped, linewidths=5, center=1)
+    plt.title(f'Episode: {episode_n}, N steps: {step_n}, action: {action_name}')
+    plt.savefig(f'debug/episode_{episode_n}_{step_n}_{action_name}.png')
+    plt.close()
+	
 def choose_action(gState):
     if random.randint(0,10) > 5: # do random selection
         action = random.randint(0,gTotal_Actions - 1)
@@ -140,6 +160,7 @@ for i in range(0, gEpisode, 1):
     if i > Trainning:
         print("Episode={:d}, New gState={:d}, reward={:d}, done={:b} used_step={:d}".format(i, new_state,reward,done,used_step))
         evn_render(new_state)
+	map_render(new_state, i, used_step, gAction)
 
     # update reward, q-value
     gQ_table[gState][gAction] = (1 - alpha) * gQ_table[gState][gAction] + alpha * (reward + Gamma * get_MAX_Q_from_state(new_state))
