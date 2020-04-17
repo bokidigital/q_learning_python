@@ -156,3 +156,9 @@ for i in range(0, gEpisode, 1):
         used_step = 0
 
     gState = new_state
+
+fig = plt.figure()
+q_table = pd.DataFrame(gQ_table, columns=['Up','Down','Left','Right'])
+sns.heatmap(q_table, cmap="PiYG")
+plt.title('debug/final_q.png')
+plt.close()
